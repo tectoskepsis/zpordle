@@ -33,20 +33,20 @@ function guess_helper(g) {
   var val = 0;
   var pow = -1;
   if (g != target) {
-    pow = norm_power(Math.abs(g - target), todays_primes[guesses]);
+    pow = norm_power(Math.abs(g - target), this_games_primes[guesses]);
     if (pow == 0) {
       val = 1;
     } else {
-      val = "1/" + Math.pow(todays_primes[guesses], pow);
+      val = "1/" + Math.pow(this_games_primes[guesses], pow);
     }
   }
-  li.innerHTML = "<span style=\"color: black\">Prime: " + todays_primes[guesses] + " Guess: " + g + " Norm: " + val + "</span>";
+  li.innerHTML = "<span style=\"color: black\">Prime: " + this_games_primes[guesses] + " Guess: " + g + " Norm: " + val + "</span>";
   li.style.backgroundColor = get_color(pow);
   share_emojis.push(pow);
   document.getElementById("guesses").appendChild(li);
   guesses++;
   if (val != 0 && guesses < NUM_GUESSES) {
-    document.getElementById("curguess").innerHTML = "Current Prime: " + todays_primes[guesses];
+    document.getElementById("curguess").innerHTML = "Current Prime: " + this_games_primes[guesses];
     return;
   }
   won = (val == 0);
@@ -181,14 +181,14 @@ function guess() {
 	return;
   }
   guess_helper(g);
-  var arr = JSON.parse(localStorage.todays_guesses);
+  var arr = JSON.parse(localStorage.this_games_guesses);
   arr.push(g);
-  localStorage.todays_guesses = JSON.stringify(arr);
+  localStorage.this_games_guesses = JSON.stringify(arr);
 }
 
 function share() {
   // need to make the display date a separate variable because 'today' is used for seeding the random number generation.
-  var today_but_not_weird = (nd.getMonth() + 1) + '/' + nd.getDate() + '/' + nd.getFullYear();
+  var today_but_not_weird = (nd.getMonth() + 1) + '/' + nd.getDate() + '/' + nd.getFullYear() + '/' + nd.getHours();
   var text = "Zpordle " + today_but_not_weird + " " + (won ? guesses : "X") + "/" + NUM_GUESSES + "\n";
   var emojis = "";
   for (var i = 0; i < share_emojis.length; i++) {
@@ -281,25 +281,26 @@ var pstDate = d.toLocaleString("en-us", {
 });
 var nd = new Date(pstDate);
 var today = nd.getFullYear() + '/' + (nd.getMonth() + 1) + '/' + nd.getDate();
+var thisHour = nd.getFullYear() + '/' + (nd.getMonth() + 1) + '/' + nd.getDate() + '/' + nd.getHours();
 
 // using https://github.com/davidbau/seedrandom
-Math.seedrandom(today);
+Math.seedrandom(thisHour);
 
 var target = Math.round(Math.random() * MAX_NUM);
-var todays_primes = []
+var this_games_primes = []
 var guesses = 0;
 var won = false;
 var share_emojis = [];
 
 for (var i = 0; i < NUM_GUESSES; i++) {
-  todays_primes.push(sample_from_distribution(DISTRIBUTION));
+  this_games_primes.push(sample_from_distribution(DISTRIBUTION));
 }
-todays_primes.sort(function(a, b) {
+this_games_primes.sort(function(a, b) {
   return a - b;
 });
 
-document.getElementById("info").innerHTML = "Today's Primes: " + todays_primes.join(", ");
-document.getElementById("curguess").innerHTML = "Current Prime: " + todays_primes[0];
+document.getElementById("info").innerHTML = "Today's Primes: " + this_games_primes.join(", ");
+document.getElementById("curguess").innerHTML = "Current Prime: " + this_games_primes[0];
 
 // initialize statistics/streaks if we haven't yet
 if (localStorage.getItem("statistics") === null) {
@@ -319,11 +320,11 @@ if (localStorage.getItem("dark-mode") === null) {
 }
 
 // check local storage for todays guesses
-if (localStorage.getItem("date") != today) {
-  localStorage.date = today;
-  localStorage.todays_guesses = "[]";
+if (localStorage.getItem("date") != thisHour) {
+  localStorage.date = thisHour;
+  localStorage.this_game_guesses = "[]";
 } else {
-  var arr = JSON.parse(localStorage.todays_guesses);
+  var arr = JSON.parse(localStorage.this_game_guesses);
   for (var i = 0; i < arr.length; i++) {
     guess_helper(arr[i]);
   }
@@ -332,7 +333,7 @@ if (localStorage.getItem("date") != today) {
 var streaks = JSON.parse(localStorage.getItem("streaks"));
 try {
   var last_played = localStorage.getItem("last-played-date");
-  if (Date.parse(today) - Date.parse(last_played) > 86400000) {
+  if (Date.parse(thisHour) - Date.parse(last_played) > 86400000) {
     streaks["current-streak"] = 0;
   }
 } catch {
