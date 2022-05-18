@@ -204,7 +204,7 @@ function share(discord) {
     for (i in tgg) {
       text += tgg[i]
       if (i < tgg.length - 1) {
-        text += ","
+        text += ", "
       }
     }
     text += "|| <https://pg132.github.io/zpordle>"
