@@ -186,9 +186,9 @@ function guess() {
   localStorage.this_games_guesses = JSON.stringify(arr);
 }
 
-function share() {
+function share(discord) {
   // need to make the display date a separate variable because 'today' is used for seeding the random number generation.
-  var today_but_not_weird = (nd.getMonth() + 1) + '/' + nd.getDate() + '/' + nd.getFullYear() + '/' + nd.getHours();
+  var today_but_not_weird = (nd.getMonth() + 1) + '/' + nd.getDate() + '/' + nd.getFullYear() + ' ' + nd.getHours() + ":XX";
   var text = "Zpordle " + today_but_not_weird + " " + (won ? guesses : "X") + "/" + NUM_GUESSES + "\n";
   var emojis = "";
   for (var i = 0; i < share_emojis.length; i++) {
@@ -198,9 +198,20 @@ function share() {
     }
   }
   text += (emojis + "\n");
-  text += "https://mabotkin.github.io/zpordle"
+  if (discord) {
+    text += "Guesses: ||"
+    for (i in arr) {
+      text += arr[i]
+      if (i < arr.length - 1) {
+        text += ","
+      }
+    }
+    text += "|| <https://pg132.github.io/zpordle>"
+  } else {
+    text += "https://pg132.github.io/zpordle"
+  }
   navigator.clipboard.writeText(text).then(function() {
-    alert("Copied to clipboard.");
+    //alert("Copied to clipboard.");
   }, function() {
     alert("Failed to copy. So go do your manifolds you nerd.")
   });
@@ -272,7 +283,7 @@ var EMOJI_TABLE = {
   "2": String.fromCodePoint(0x1F7E8),
   "3": String.fromCodePoint(0x1F7E9),
 }
-var SHARE_BUTTON = "<button id=\"share\" type=\"button\" onclick=\"share()\">Share</button>";
+var SHARE_BUTTON = "<button id=\"share\" type=\"button\" onclick=\"share()\">Share</button>  <button id=\"sharedisc\" type=\"button\" onclick=\"share(true)\">Share (Discord)</button>";
 
 // always use pacific time
 var d = new Date();
@@ -281,7 +292,7 @@ var pstDate = d.toLocaleString("en-us", {
 });
 var nd = new Date(pstDate);
 var today = nd.getFullYear() + '/' + (nd.getMonth() + 1) + '/' + nd.getDate();
-var thisHour = nd.getFullYear() + '/' + (nd.getMonth() + 1) + '/' + nd.getDate() + '/' + nd.getHours();
+var thisHour = nd.getFullYear() + '/' + (nd.getMonth() + 1) + '/' + nd.getDate() + ' ' + nd.getHours() + ":XX";
 
 // using https://github.com/davidbau/seedrandom
 Math.seedrandom(thisHour);
@@ -299,7 +310,7 @@ this_games_primes.sort(function(a, b) {
   return a - b;
 });
 
-document.getElementById("info").innerHTML = "Today's Primes: " + this_games_primes.join(", ");
+document.getElementById("info").innerHTML = "This Hour's Primes: " + this_games_primes.join(", ");
 document.getElementById("curguess").innerHTML = "Current Prime: " + this_games_primes[0];
 
 // initialize statistics/streaks if we haven't yet
@@ -322,9 +333,9 @@ if (localStorage.getItem("dark-mode") === null) {
 // check local storage for todays guesses
 if (localStorage.getItem("date") != thisHour) {
   localStorage.date = thisHour;
-  localStorage.this_game_guesses = "[]";
+  localStorage.this_games_guesses = "[]";
 } else {
-  var arr = JSON.parse(localStorage.this_game_guesses);
+  var arr = JSON.parse(localStorage.this_games_guesses);
   for (var i = 0; i < arr.length; i++) {
     guess_helper(arr[i]);
   }
