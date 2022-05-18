@@ -200,9 +200,10 @@ function share(discord) {
   text += (emojis + "\n");
   if (discord) {
     text += "Guesses: ||"
-    for (i in arr) {
-      text += arr[i]
-      if (i < arr.length - 1) {
+    tgg = localStorage.this_games_guesses
+    for (i in tgg) {
+      text += tgg[i]
+      if (i < tgg.length - 1) {
         text += ","
       }
     }
