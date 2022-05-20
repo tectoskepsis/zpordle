@@ -52,7 +52,7 @@ function guess_helper(g) {
   won = (val == 0);
 
   // update statistics
-  if (localStorage.getItem("last-played-date") != today) {
+  if (localStorage.getItem("last-played-date") != thisHour) {
     // update guess statistics
     var statistics = JSON.parse(localStorage.getItem("statistics"));
     statistics[won ? guesses : 0]++;
@@ -67,13 +67,13 @@ function guess_helper(g) {
     }
     localStorage.setItem("streaks", JSON.stringify(streaks));
     //
-    localStorage.setItem("last-played-date", today)
+    localStorage.setItem("last-played-date", thisHour)
   }
 
   // Game is over (either guess was correct, or we're out of guesses).
   var result_string = val == 0 ?
     "You win!" :
-    "You lose. Today's number was " + target + ".";
+    "You lose. This hours's number was " + target + ".";
   document.getElementById("button").disabled = true;
   document.getElementById("curguess").innerHTML = "";
 
