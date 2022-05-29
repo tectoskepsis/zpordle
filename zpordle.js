@@ -12,41 +12,41 @@ function norm_power(n, p) {
   return k;
 }
 
-function sample_from_distribution(dist) {
-  // should probably test this
-  var tot = 0;
-  for (var p in dist) {
-    tot += dist[p];
-  }
-  var r = tot * Math.random();
-  var sum = 0;
-  for (var p in dist) {
-    sum += dist[p];
-    if (sum >= r) {
-      return parseInt(p);
-    }
-  }
-}
+// function sample_from_distribution(dist) {
+//   // should probably test this
+//   var tot = 0;
+//   for (var p in dist) {
+//     tot += dist[p];
+//   }
+//   var r = tot * Math.random();
+//   var sum = 0;
+//   for (var p in dist) {
+//     sum += dist[p];
+//     if (sum >= r) {
+//       return parseInt(p);
+//     }
+//   }
+// }
 
-function guess_helper(g) {
+function guess_helper(guess, prime) {
   var li = document.createElement("li");
   var val = 0;
   var pow = -1;
   if (g != target) {
-    pow = norm_power(Math.abs(g - target), todays_primes[guesses]);
+    pow = norm_power(Math.abs(guess - target), prime);
     if (pow == 0) {
       val = 1;
     } else {
-      val = "1/" + Math.pow(todays_primes[guesses], pow);
+      val = "1/" + Math.pow(prime, pow);
     }
   }
-  li.innerHTML = "<span style=\"color: black\">Prime: " + todays_primes[guesses] + " Guess: " + g + " Norm: " + val + "</span>";
+  li.innerHTML = "<span style=\"color: black\">Prime: " + prime + " Guess: " + g + " Norm: " + val + "</span>";
   li.style.backgroundColor = get_color(pow);
   share_emojis.push(pow);
   document.getElementById("guesses").appendChild(li);
-  guesses++;
+  // guesses++;
   if (val != 0 && guesses < NUM_GUESSES) {
-    document.getElementById("curguess").innerHTML = "Current Prime: " + todays_primes[guesses];
+    // document.getElementById("curguess").innerHTML = "Current Prime: " + todays_primes[guesses];
     return;
   }
   won = (val == 0);
@@ -75,7 +75,7 @@ function guess_helper(g) {
     "You win!" :
     "You lose. Today's number was " + target + ".";
   document.getElementById("button").disabled = true;
-  document.getElementById("curguess").innerHTML = "";
+  // document.getElementById("curguess").innerHTML = "";
 
   displayStats(result_string, /* includeShare= */true);
 }
@@ -170,19 +170,23 @@ function loadStreak() {
 }
 
 function guess() {
+  var p = document.getElementById("prime-input").value;
   var g = document.getElementById("guess-input").value;
+  document.getElementById("prime-input").value = "";
   document.getElementById("guess-input").value = "";
   try {
     g = parseInt(g);
-    if (isNaN(g)) { throw err; }
-    if (g < 0 || g > MAX_NUM) { throw err; }
-  } catch (err) {
-    alert("Not a valid guess.");
+    if (isNaN(g) || g < 0 || g > MAX_NUM) { throw "Not a valid guess."; }
+
+    p = parseInt(p);
+    if (!MY_PRIMES.includes(p)) { throw "Not a valid prime."; }
+  } catch (error) {
+    alert(error);
     return;
   }
-  guess_helper(g);
+  guess_helper(g, p);
   var arr = JSON.parse(localStorage.todays_guesses);
-  arr.push(g);
+  arr.push([g, p]);
   localStorage.todays_guesses = JSON.stringify(arr);
 }
 
@@ -254,18 +258,20 @@ var MAX_NUM = 1000;
 var NUM_PRIMES = 10;
 var NUM_GUESSES = 10;
 //
-document.getElementById("max-guess").innerHTML = MAX_NUM;
-document.getElementById("num-guesses").innerHTML = NUM_GUESSES;
+// document.getElementById("max-guess").innerHTML = MAX_NUM;
+// document.getElementById("num-guesses").innerHTML = NUM_GUESSES;
 //
-var PRIMES = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199, 211, 223, 227];
-var MY_PRIMES = PRIMES.slice(0, NUM_PRIMES);
-var DISTRIBUTION = {}
-for (var i = 0; i < MY_PRIMES.length; i++) {
-  var p = MY_PRIMES[i];
-  DISTRIBUTION[p] = 1.0 / p;
-}
+const PRIMES = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199, 211, 223, 227];
+const MY_PRIMES = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29];
+// these are expensive to compute so store them
+const BASE_PRICES = [500, 346, 226, 174, 122, 107, 87, 80, 69, 58]
+// var DISTRIBUTION = {}
+// for (var i = 0; i < MY_PRIMES.length; i++) {
+//   var p = MY_PRIMES[i];
+//   DISTRIBUTION[p] = 1.0 / p;
+// }
 //
-var EMOJI_TABLE = {
+const EMOJI_TABLE = {
   "-1": String.fromCodePoint(0x2611),
   "0": String.fromCodePoint(0x1F7E5),
   "1": String.fromCodePoint(0x1F7E7),
@@ -286,20 +292,24 @@ var today = nd.getFullYear() + '/' + (nd.getMonth() + 1) + '/' + nd.getDate();
 Math.seedrandom(today);
 
 var target = Math.round(Math.random() * MAX_NUM);
-var todays_primes = []
+// var todays_primes = []
 var guesses = 0;
 var won = false;
 var share_emojis = [];
 
-for (var i = 0; i < NUM_GUESSES; i++) {
-  todays_primes.push(sample_from_distribution(DISTRIBUTION));
-}
-todays_primes.sort(function (a, b) {
-  return a - b;
-});
+// for (var i = 0; i < NUM_GUESSES; i++) {
+//   todays_primes.push(sample_from_distribution(DISTRIBUTION));
+// }
+// todays_primes.sort(function (a, b) {
+//   return a - b;
+// });
 
-document.getElementById("info").innerHTML = "Today's Primes: " + todays_primes.join(", ");
-document.getElementById("curguess").innerHTML = "Current Prime: " + todays_primes[0];
+// document.getElementById("info").innerHTML = "Today's Primes: " + todays_primes.join(", ");
+// document.getElementById("curguess").innerHTML = "Current Prime: " + todays_primes[0];
+
+MY_PRIMES.forEach(function (prime) {
+  document.getElementById(prime+"-price").innerHTML = "¥" + BASE_PRICES[prime];
+});
 
 // initialize statistics/streaks if we haven't yet
 if (localStorage.getItem("statistics") === null) {
@@ -325,7 +335,7 @@ if (localStorage.getItem("date") != today) {
 } else {
   var arr = JSON.parse(localStorage.todays_guesses);
   for (var i = 0; i < arr.length; i++) {
-    guess_helper(arr[i]);
+    guess_helper(arr[i][0], arr[i][1]);
   }
 }
 // check if we missed a day
@@ -341,8 +351,8 @@ try {
 }
 localStorage.setItem("streaks", JSON.stringify(streaks));
 // Shamelessly stolen from w3schools like a proper programmer.
-var input = document.getElementById("guess-input");
-input.addEventListener("keyup", function (event) {
+var guess_input = document.getElementById("guess-input");
+guess_input.addEventListener("keyup", function (event) {
   if (event.keyCode === 13) {
     event.preventDefault();
     document.getElementById("button").click();
