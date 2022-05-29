@@ -23,10 +23,10 @@ function entropy(guess, possibles, prime) {
       dist[d] += 1;
     }
   });
-  if (prime === 2) console.log(Object.values(dist));
   total = Object.values(dist).reduce((a, b) => a + b);
-  if (prime === 2) console.log(total);
-  return Object.values(dist).reduce((a, b) => a + Math.log2(total / b) * b / total);
+  ans = Object.values(dist).reduce((a, b) => a + Math.log2(total / b) * b / total);
+  if (guess == 1 && prime === 2) console.log(ans);
+  return ans;
 }
 
 function maximum_entropy(possibles, prime) {
@@ -71,7 +71,7 @@ function guess_helper(guess, prime) {
   }
   spent += parseInt(document.getElementById(prime+"-price").innerHTML.substring(1))
   console.log("spent: "+document.getElementById(prime+"-price").innerHTML.substring(1))
-  li.innerHTML = "<span style=\"color: black\">Prime: " + prime + " Guess: " + guess + " Norm: " + val + " Spent: " + spent + "</span>";
+  li.innerHTML = "<span style=\"color: black\">Prime: " + prime + " Guess: " + guess + " Norm: " + val + " Spent: ¥" + spent + "</span>";
   li.style.backgroundColor = get_color(pow);
   share_emojis.push(pow);
   document.getElementById("guesses").appendChild(li);
