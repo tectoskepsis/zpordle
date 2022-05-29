@@ -23,6 +23,7 @@ function entropy(guess, possibles, prime) {
       dist[d] += 1;
     }
   });
+  if (guess == 1 && prime === 2) console.log(Object.values(dist));
   total = Object.values(dist).reduce((a, b) => a + b);
   ans = Object.values(dist).reduce((a, b) => a + Math.log2(total / b) * b / total);
   if (guess == 1 && prime === 2) console.log(ans);
