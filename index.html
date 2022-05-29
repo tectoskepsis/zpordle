@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Zpordle</title>
-		<meta name="description" content="A number guessing game with a p-adic twist.">
+		<title>Zpordle Shop</title>
+		<meta name="description" content="A p-adic number guessing game.">
 		<meta name="viewport" content="width=device-width">
 		<link rel="shortcut icon" type="image/png" href="favicon.png">
 	</head>
@@ -39,9 +39,9 @@
 					</tr>
 				</table>
 			</div>
-			<div style="max-width: 50%; margin: auto;">
-				<div style="margin-left: 10px;">
-					Prime: <input type="text" id="prime-input" style="max-width: 50px"></input>  Guess: <input type="text" id="guess-input" style="max-width: 75px"></input>  <button id="button" type="button" onclick="guess()">Guess</button><button id="share-button" type="button" onclick="share()">Share</button>
+			<div style="max-width: 50%;">
+				<div>
+					Prime: <input type="text" id="prime-input" style="max-width: 30px"></input>  Guess: <input type="text" id="guess-input" style="max-width: 50px"></input>  <button id="button" type="button" onclick="guess()">Guess</button><button id="share-button" class="modal" type="button" onclick="share()">Share</button>
 				</div>
 				<ol id="guesses">
 			</div>
@@ -49,8 +49,11 @@
 			<div style="max-width: 50%; margin: auto;">
 				<p>
 					Dark Mode: <input type="checkbox" id="darkmode-checkbox" onclick="updateDarkMode()"><br>
-					<a href="https://github.com/mabotkin/zpordle">Github</a>
+					<a href="https://github.com/tectoskepsis/zpordle">Github</a>
 				</p>
+			</div>
+			<div>
+				<p>This is a spin-off of Zpordle</p>
 			</div>
 			<!-- Remember to include jQuery :) -->
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>

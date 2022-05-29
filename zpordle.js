@@ -68,8 +68,7 @@ function guess_helper(guess, prime) {
     "You win!" :
     "You lose. Today's number was " + target + ".";
   document.getElementById("button").disabled = true;
-
-  document.getElementById("share-button").style.display = "block";
+  $('#share-button').modal('show');
 }
 
 function guess() {
@@ -199,7 +198,6 @@ var guesses = 0;
 var won = false;
 var spent = 0;
 var share_emojis = [];
-document.getElementById("share-button").style.display = "none";
 
 MY_PRIMES.forEach(function (prime) {
   document.getElementById(prime+"-price").innerHTML = "¥" + BASE_PRICES[prime.toString()];
