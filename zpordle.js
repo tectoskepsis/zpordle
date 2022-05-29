@@ -15,7 +15,7 @@ function norm_power(n, p) {
 function entropy(guess, possibles, prime) {
   dist = {};
   possibles.forEach( function (value) {
-    d = norm_power(value - guess, prime)
+    d = norm_power(Math.abs(value - guess), prime)
     if (!dist.hasOwnProperty(d)) dist[d] = 0;
     if (value == 0 || value == MAX_NUM) {
       dist[value] += 0.5;
@@ -36,7 +36,7 @@ function price(possibles, prime) {
 }
 
 function filter_numbers(guess, clue, prime) {
-  numbers_left = numbers_left.filter((number) => norm_power(number - guess, prime) === clue);
+  numbers_left = numbers_left.filter((number) => norm_power(Math.abs(number - guess), prime) === clue);
 }
 
 // function sample_from_distribution(dist) {
@@ -68,7 +68,7 @@ function guess_helper(guess, prime) {
     }
   }
   spent += parseInt(document.getElementById(prime+"-price").innerHTML)
-  li.innerHTML = "<span style=\"color: black\">Prime: " + prime + " Guess: " + guess + " Norm: " + val + "</span>";
+  li.innerHTML = "<span style=\"color: black\">Prime: " + prime + " Guess: " + guess + " Norm: " + val + " Spent: " + spent + "</span>";
   li.style.backgroundColor = get_color(pow);
   share_emojis.push(pow);
   document.getElementById("guesses").appendChild(li);
