@@ -72,7 +72,7 @@ function guess_helper(guess, prime) {
   share_emojis.push(pow);
   document.getElementById("guesses").appendChild(li);
   // guesses++;
-  if (val != 0 && guesses < NUM_GUESSES) {
+  if (val != 0) {
     // document.getElementById("curguess").innerHTML = "Current Prime: " + todays_primes[guesses];
     MY_PRIMES.forEach(function (p) {
       document.getElementById(prime+"-price").innerHTML = "¥" + price(numbers_left, prime);
