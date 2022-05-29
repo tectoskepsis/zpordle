@@ -77,11 +77,11 @@ function guess_helper(g) {
   document.getElementById("button").disabled = true;
   document.getElementById("curguess").innerHTML = "";
 
-	displayStats(result_string, /* includeShare= */true);
+  displayStats(result_string, /* includeShare= */true);
 }
 
 function stats() {
-	displayStats("", false);
+  displayStats("", false);
 }
 
 function displayStats(result_string, includeShare) {
@@ -92,19 +92,19 @@ function displayStats(result_string, includeShare) {
   }
   document.getElementById("result").innerHTML = result_string;
 
-  var statistics = JSON.parse( localStorage.getItem( "statistics" ) );
-  var streaks = JSON.parse( localStorage.getItem( "streaks" ) );
-  var games_played = statistics.reduce( ( a , b ) => a + b )
-  var wins = statistics.slice( 1 ).reduce( ( a , b ) => a + b )
-  var winpercent = ( games_played == 0 ) ? "N/A" : Math.floor( 100 * wins / games_played ) + "%" ;
+  var statistics = JSON.parse(localStorage.getItem("statistics"));
+  var streaks = JSON.parse(localStorage.getItem("streaks"));
+  var games_played = statistics.reduce((a, b) => a + b)
+  var wins = statistics.slice(1).reduce((a, b) => a + b)
+  var winpercent = (games_played == 0) ? "N/A" : Math.floor(100 * wins / games_played) + "%";
   var streak_string = "";
   streak_string += "<div id=\"played\" style=\"flex: 1;\">Played<div style=\"font-size: 2em\">" + games_played + "</div></div>";
   streak_string += "<div id=\"winpercent\" style=\"flex: 1\">Win Percentage<div style=\"font-size: 2em\">" + winpercent + "</div></div>";
-  streak_string += "<div id=\"curstreak\" style=\"flex: 1\">Current Streak<div style=\"font-size: 2em\">" + streaks[ "current-streak" ] + "</div></div>";
-  streak_string += "<div id=\"maxstreak\" style=\"flex: 1\">Max Streak<div style=\"font-size: 2em\">" + streaks[ "max-streak" ] + "</div></div>";
+  streak_string += "<div id=\"curstreak\" style=\"flex: 1\">Current Streak<div style=\"font-size: 2em\">" + streaks["current-streak"] + "</div></div>";
+  streak_string += "<div id=\"maxstreak\" style=\"flex: 1\">Max Streak<div style=\"font-size: 2em\">" + streaks["max-streak"] + "</div></div>";
   document.getElementById("streak").innerHTML = streak_string;
 
-	loadStats();
+  loadStats();
   $('#result').modal('show');
 }
 
@@ -148,7 +148,7 @@ function loadStats() {
           anchor: "end",
           align: "left",
           // only display label if > 0
-          display: function(context) {
+          display: function (context) {
             var index = context.dataIndex;
             var value = context.dataset.data[index];
             return value > 0;
@@ -174,11 +174,11 @@ function guess() {
   document.getElementById("guess-input").value = "";
   try {
     g = parseInt(g);
-	if ( isNaN( g ) ) { throw err; }
-	if ( g < 0 || g > MAX_NUM ) { throw err; }
+    if (isNaN(g)) { throw err; }
+    if (g < 0 || g > MAX_NUM) { throw err; }
   } catch (err) {
     alert("Not a valid guess.");
-	return;
+    return;
   }
   guess_helper(g);
   var arr = JSON.parse(localStorage.todays_guesses);
@@ -199,9 +199,9 @@ function share() {
   }
   text += (emojis + "\n");
   text += "https://mabotkin.github.io/zpordle"
-  navigator.clipboard.writeText(text).then(function() {
+  navigator.clipboard.writeText(text).then(function () {
     alert("Copied to clipboard.");
-  }, function() {
+  }, function () {
     alert("Failed to copy. So go do your manifolds you nerd.")
   });
 }
@@ -237,16 +237,16 @@ function emoji_lookup(val) {
 }
 
 function rerender() {
-	var body = document.getElementsByTagName( "body" )[0];
-	var darkmode = localStorage.getItem( "dark-mode" ) == "true" ;
-	body.style.backgroundColor = ( darkmode ? "black" : "" );
-	body.style.color = ( darkmode ? "white" : "" );
-	document.getElementById( "logo" ).src = ( darkmode ? "logo-white.png" : "logo.png" );
+  var body = document.getElementsByTagName("body")[0];
+  var darkmode = localStorage.getItem("dark-mode") == "true";
+  body.style.backgroundColor = (darkmode ? "black" : "");
+  body.style.color = (darkmode ? "white" : "");
+  document.getElementById("logo").src = (darkmode ? "logo-white.png" : "logo.png");
 }
 
 function updateDarkMode() {
-	localStorage.setItem( "dark-mode" , document.getElementById( "darkmode-checkbox" ).checked );
-	rerender();
+  localStorage.setItem("dark-mode", document.getElementById("darkmode-checkbox").checked);
+  rerender();
 }
 
 // constants
@@ -277,7 +277,7 @@ var SHARE_BUTTON = "<button id=\"share\" type=\"button\" onclick=\"share()\">Sha
 // always use pacific time
 var d = new Date();
 var pstDate = d.toLocaleString("en-us", {
-	timeZone: "America/Los_Angeles"
+  timeZone: "America/Los_Angeles"
 });
 var nd = new Date(pstDate);
 var today = nd.getFullYear() + '/' + (nd.getMonth() + 1) + '/' + nd.getDate();
@@ -294,7 +294,7 @@ var share_emojis = [];
 for (var i = 0; i < NUM_GUESSES; i++) {
   todays_primes.push(sample_from_distribution(DISTRIBUTION));
 }
-todays_primes.sort(function(a, b) {
+todays_primes.sort(function (a, b) {
   return a - b;
 });
 
@@ -312,10 +312,10 @@ if (localStorage.getItem("streaks") === null) {
   }));
 }
 if (localStorage.getItem("dark-mode") === null) {
-	localStorage.setItem("dark-mode", "false" );
+  localStorage.setItem("dark-mode", "false");
 } else {
-	document.getElementById( "darkmode-checkbox" ).checked = ( localStorage.getItem( "dark-mode" ) == "true" );
-	rerender();
+  document.getElementById("darkmode-checkbox").checked = (localStorage.getItem("dark-mode") == "true");
+  rerender();
 }
 
 // check local storage for todays guesses
@@ -342,7 +342,7 @@ try {
 localStorage.setItem("streaks", JSON.stringify(streaks));
 // Shamelessly stolen from w3schools like a proper programmer.
 var input = document.getElementById("guess-input");
-input.addEventListener("keyup", function(event) {
+input.addEventListener("keyup", function (event) {
   if (event.keyCode === 13) {
     event.preventDefault();
     document.getElementById("button").click();
