@@ -32,6 +32,7 @@ function maximum_entropy(possibles, prime) {
 }
 
 function price(possibles, prime) {
+  console.log("price("+possibles+", "+prime+")")
   return Math.round(250 * maximum_entropy(possibles, prime));
 }
 
@@ -68,6 +69,7 @@ function guess_helper(guess, prime) {
     }
   }
   spent += parseInt(document.getElementById(prime+"-price").innerHTML)
+  console.log("spent: "+document.getElementById(prime+"-price").innerHTML)
   li.innerHTML = "<span style=\"color: black\">Prime: " + prime + " Guess: " + guess + " Norm: " + val + " Spent: " + spent + "</span>";
   li.style.backgroundColor = get_color(pow);
   share_emojis.push(pow);
