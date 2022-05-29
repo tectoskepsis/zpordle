@@ -5,15 +5,6 @@
 		<meta name="description" content="A number guessing game with a p-adic twist.">
 		<meta name="viewport" content="width=device-width">
 		<link rel="shortcut icon" type="image/png" href="favicon.png">
-		<!-- Global site tag (gtag.js) - Google Analytics
-		<script async src="https://www.googletagmanager.com/gtag/js?id=G-G2HVJEMPWM"></script>
-		<script>
-		  window.dataLayer = window.dataLayer || [];
-		  function gtag(){dataLayer.push(arguments);}
-		  gtag('js', new Date());
-
-		  gtag('config', 'G-G2HVJEMPWM');
-		</script> -->
 	</head>
 	<body>
 		<div style="text-align: center;">
@@ -50,7 +41,7 @@
 			</div>
 			<div style="max-width: 50%; margin: auto;">
 				<div style="margin-left: 10px;">
-					Prime: <input type="text" id="prime-input" style="max-width: 50px"></input>  Guess: <input type="text" id="guess-input" style="max-width: 75px"></input>  <button id="button" type="button" onclick="guess()">Guess</button><button id="statsButton" type="button" onclick="stats()">Statistics</button>
+					Prime: <input type="text" id="prime-input" style="max-width: 50px"></input>  Guess: <input type="text" id="guess-input" style="max-width: 75px"></input>  <button id="button" type="button" onclick="guess()">Guess</button><button id="share-button" type="button" onclick="share()">Share</button>
 				</div>
 				<ol id="guesses">
 			</div>
@@ -67,9 +58,6 @@
 			<!-- jQuery Modal -->
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
 			<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
-			<script src="seedrandom.min.js"></script>
-			<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-			<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
 			<script src="zpordle.js"></script>
 		</div>
 	</body>
