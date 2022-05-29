@@ -59,7 +59,7 @@ function guess_helper(guess, prime) {
   var li = document.createElement("li");
   var val = 0;
   var pow = -1;
-  if (g != target) {
+  if (guess != target) {
     pow = norm_power(Math.abs(guess - target), prime);
     if (pow == 0) {
       val = 1;
@@ -67,7 +67,7 @@ function guess_helper(guess, prime) {
       val = "1/" + Math.pow(prime, pow);
     }
   }
-  li.innerHTML = "<span style=\"color: black\">Prime: " + prime + " Guess: " + g + " Norm: " + val + "</span>";
+  li.innerHTML = "<span style=\"color: black\">Prime: " + prime + " Guess: " + guess + " Norm: " + val + "</span>";
   li.style.backgroundColor = get_color(pow);
   share_emojis.push(pow);
   document.getElementById("guesses").appendChild(li);
@@ -295,7 +295,7 @@ var NUM_PRIMES = 10;
 const PRIMES = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199, 211, 223, 227];
 const MY_PRIMES = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29];
 // these are expensive to compute so store them
-const BASE_PRICES = [500, 346, 226, 174, 122, 107, 87, 80, 69, 58]
+const BASE_PRICES = {2: 500, 3: 346, 5: 226, 7: 174, 11: 122, 13: 107, 17: 87, 19: 80, 23: 69, 29: 58}
 // var DISTRIBUTION = {}
 // for (var i = 0; i < MY_PRIMES.length; i++) {
 //   var p = MY_PRIMES[i];
