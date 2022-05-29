@@ -74,8 +74,9 @@ function guess_helper(guess, prime) {
   // guesses++;
   if (val != 0) {
     // document.getElementById("curguess").innerHTML = "Current Prime: " + todays_primes[guesses];
+    spent += parseInt(document.getElementById(prime+"-price").innerHTML)
     MY_PRIMES.forEach(function (p) {
-      document.getElementById(prime+"-price").innerHTML = "¥" + price(numbers_left, prime);
+      document.getElementById(p+"-price").innerHTML = "¥" + price(numbers_left, p);
       filter_numbers();
     });
     return;
@@ -224,7 +225,7 @@ function guess() {
 function share() {
   // need to make the display date a separate variable because 'today' is used for seeding the random number generation.
   var today_but_not_weird = (nd.getMonth() + 1) + '/' + nd.getDate() + '/' + nd.getFullYear();
-  var text = "Zpordle " + today_but_not_weird + " " + (won ? guesses : "X") + "/" + NUM_GUESSES + "\n";
+  var text = "I solved the " + today_but_not_weird + " Zpordle " + "with ¥" + spent + ".\n";
   var emojis = "";
   for (var i = 0; i < share_emojis.length; i++) {
     emojis += emoji_lookup(share_emojis[i]);
@@ -233,7 +234,7 @@ function share() {
     }
   }
   text += (emojis + "\n");
-  text += "https://mabotkin.github.io/zpordle"
+  text += "https://tectoskepsis.github.io/zpordle"
   navigator.clipboard.writeText(text).then(function () {
     alert("Copied to clipboard.");
   }, function () {
@@ -327,6 +328,7 @@ var numbers_left = Array.from(Array(MAX_NUM).keys())
 // var todays_primes = []
 var guesses = 0;
 var won = false;
+var spent = 0;
 var share_emojis = [];
 
 // for (var i = 0; i < NUM_GUESSES; i++) {
@@ -344,9 +346,9 @@ MY_PRIMES.forEach(function (prime) {
 });
 
 // initialize statistics/streaks if we haven't yet
-if (localStorage.getItem("statistics") === null) {
-  localStorage.setItem("statistics", JSON.stringify(new Array(11).fill(0)));
-}
+// if (localStorage.getItem("statistics") === null) {
+//   localStorage.setItem("statistics", JSON.stringify(new Array(11).fill(0)));
+// }
 if (localStorage.getItem("streaks") === null) {
   localStorage.setItem("streaks", JSON.stringify({
     "current-streak": 0,
