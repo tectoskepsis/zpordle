@@ -18,9 +18,9 @@ function entropy(guess, possibles, prime) {
     d = norm_power(Math.abs(value - guess), prime)
     if (!dist.hasOwnProperty(d)) dist[d] = 0;
     if (value == 0 || value == MAX_NUM) {
-      dist[value] += 0.5;
+      dist[d] += 0.5;
     } else {
-      dist[value] += 1;
+      dist[d] += 1;
     }
   });
   if (prime === 2) console.log(Object.values(dist));
