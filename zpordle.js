@@ -340,7 +340,7 @@ var share_emojis = [];
 // document.getElementById("curguess").innerHTML = "Current Prime: " + todays_primes[0];
 
 MY_PRIMES.forEach(function (prime) {
-  document.getElementById(prime+"-price").innerHTML = "¥" + BASE_PRICES[prime];
+  document.getElementById(prime+"-price").innerHTML = "¥" + BASE_PRICES[prime.toString()];
 });
 
 // initialize statistics/streaks if we haven't yet
