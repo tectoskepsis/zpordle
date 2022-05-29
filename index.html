@@ -4,7 +4,7 @@
 		<meta name="description" content="A number guessing game with a p-adic twist.">
 		<meta name="viewport" content="width=device-width">
 		<link rel="shortcut icon" type="image/png" href="favicon.png">
-		<!-- Global site tag (gtag.js) - Google Analytics -->
+		<!-- Global site tag (gtag.js) - Google Analytics
 		<script async src="https://www.googletagmanager.com/gtag/js?id=G-G2HVJEMPWM"></script>
 		<script>
 		  window.dataLayer = window.dataLayer || [];
@@ -12,26 +12,47 @@
 		  gtag('js', new Date());
 
 		  gtag('config', 'G-G2HVJEMPWM');
-		</script>
+		</script> -->
 	</head>
 	<body>
 		<div style="text-align: center;">
 				<img id="logo" src="logo.png" alt ="Z_p-ordle">
 			<p id="result" class="modal" style="text-align: center"></p>
-			<p id="info"></p>
-			<p id="curguess"></p>
+			<h2>Prices</h2>
+			<table id="prices" style="text-align: left">
+				<tr>
+					<td>2</td>
+					<td>3</td>
+					<td>5</td>
+					<td>7</td>
+					<td>11</td>
+					<td>13</td>
+					<td>17</td>
+					<td>19</td>
+					<td>23</td>
+					<td>29</td>
+				</tr>
+				<tr>
+					<td id="2-price"></td>
+					<td id="3-price"></td>
+					<td id="5-price"></td>
+					<td id="7-price"></td>
+					<td id="11-price"></td>
+					<td id="13-price"></td>
+					<td id="17-price"></td>
+					<td id="19-price"></td>
+					<td id="23-price"></td>
+					<td id="29-price"></td>
+				</tr>
+			</table>
 			<div style="max-width: 50%; margin: auto;">
 				<div style="margin-left: 10px;">
-					<input type="text" id="prime-input"></input><input type="text" id="guess-input"></input><button id="button" type="button" onclick="guess()">Guess</button><button id="statsButton" type="button" onclick="stats()">Statistics</button>
+					<p>Prime: </p><input type="text" id="prime-input"></input><br/><p>Guess: </p><input type="text" id="guess-input"></input><button id="button" type="button" onclick="guess()">Guess</button><button id="statsButton" type="button" onclick="stats()">Statistics</button>
 				</div>
 				<ol id="guesses">
 			</div>
 			</ol>
 			<div style="max-width: 50%; margin: auto;">
-				<h2>Rules</h2>
-				<p>
-					Each day, a random integer will be picked between 0 and <span id="max-guess">"1000</span>.  You will then have <span id="num-guesses">10</span> guesses to guess the number.  Each guess will be associated with a prime number, given in increasing order.  For a guess associated with prime p, the game will tell you the p-adic distance between your guess and the target number.  Good luck!
-				</p>
 				<p>
 					Dark Mode: <input type="checkbox" id="darkmode-checkbox" onclick="updateDarkMode()"><br>
 					<a href="https://github.com/mabotkin/zpordle">Github</a>

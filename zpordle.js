@@ -12,6 +12,33 @@ function norm_power(n, p) {
   return k;
 }
 
+function entropy(guess, possibles, prime) {
+  dist = {};
+  possibles.forEach( function (value) {
+    d = norm_power(value - guess, prime)
+    if (!dist.hasOwnProperty(d)) dist[d] = 0;
+    if (value == 0 || value == MAX_NUM) {
+      dist[value] += 0.5;
+    } else {
+      dist[value] += 1;
+    }
+  });
+  total = Object.values(dist).reduce((a, b) => a + b);
+  return Object.values(dist).reduce((a, b) => a + Math.log2(total / b) * b / total);
+}
+
+function maximum_entropy(possibles, prime) {
+  return Math.max(possibles.map((v) => entropy(v, possibles, prime)));
+}
+
+function price(possibles, prime) {
+  return Math.round(250 * maximum_entropy(possibles, prime));
+}
+
+function filter_numbers(guess, clue, prime) {
+  numbers_left = numbers_left.filter((number) => norm_power(number - guess, prime) === clue);
+}
+
 // function sample_from_distribution(dist) {
 //   // should probably test this
 //   var tot = 0;
@@ -47,6 +74,10 @@ function guess_helper(guess, prime) {
   // guesses++;
   if (val != 0 && guesses < NUM_GUESSES) {
     // document.getElementById("curguess").innerHTML = "Current Prime: " + todays_primes[guesses];
+    MY_PRIMES.forEach(function (p) {
+      document.getElementById(prime+"-price").innerHTML = "¥" + price(numbers_left, prime);
+      filter_numbers();
+    });
     return;
   }
   won = (val == 0);
@@ -256,7 +287,7 @@ function updateDarkMode() {
 // constants
 var MAX_NUM = 1000;
 var NUM_PRIMES = 10;
-var NUM_GUESSES = 10;
+// var NUM_GUESSES = 10;
 //
 // document.getElementById("max-guess").innerHTML = MAX_NUM;
 // document.getElementById("num-guesses").innerHTML = NUM_GUESSES;
@@ -292,6 +323,7 @@ var today = nd.getFullYear() + '/' + (nd.getMonth() + 1) + '/' + nd.getDate();
 Math.seedrandom(today);
 
 var target = Math.round(Math.random() * MAX_NUM);
+var numbers_left = Array.from(Array(MAX_NUM).keys())
 // var todays_primes = []
 var guesses = 0;
 var won = false;
