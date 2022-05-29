@@ -67,6 +67,7 @@ function guess_helper(guess, prime) {
       val = "1/" + Math.pow(prime, pow);
     }
   }
+  spent += parseInt(document.getElementById(prime+"-price").innerHTML)
   li.innerHTML = "<span style=\"color: black\">Prime: " + prime + " Guess: " + guess + " Norm: " + val + "</span>";
   li.style.backgroundColor = get_color(pow);
   share_emojis.push(pow);
@@ -74,10 +75,9 @@ function guess_helper(guess, prime) {
   // guesses++;
   if (val != 0) {
     // document.getElementById("curguess").innerHTML = "Current Prime: " + todays_primes[guesses];
-    spent += parseInt(document.getElementById(prime+"-price").innerHTML)
+    filter_numbers(guess, pow, prime);
     MY_PRIMES.forEach(function (p) {
       document.getElementById(p+"-price").innerHTML = "¥" + price(numbers_left, p);
-      filter_numbers();
     });
     return;
   }
