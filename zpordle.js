@@ -69,7 +69,7 @@ function guess_helper(guess, prime) {
     "You lose. Today's number was " + target + ".";
   document.getElementById("button").disabled = true;
 
-  document.getElementById("share-button").style.display = "block";
+  document.getElementById("share-button").style.display = "inline";
 }
 
 function guess() {
