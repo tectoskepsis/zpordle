@@ -31,7 +31,7 @@ function entropy(guess, possibles, prime) {
 }
 
 function maximum_entropy(possibles, prime) {
-  return Math.max(Array.from(Array(MAX_NUM).keys()).map((v) => entropy(v, possibles, prime)));
+  return Math.max(...Array.from(Array(MAX_NUM).keys()).map((v) => entropy(v, possibles, prime)));
 }
 
 function price(possibles, prime) {
