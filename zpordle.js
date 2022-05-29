@@ -25,7 +25,7 @@ function entropy(guess, possibles, prime) {
   });
   if (guess == 1 && prime === 2) console.log(Object.values(dist));
   total = Object.values(dist).reduce((a, b) => a + b);
-  ans = Object.values(dist).reduce((a, b) => a + Math.log2(total / b) * b / total);
+  ans = Object.values(dist).map((a) => Math.log2(total / a) * a / total).reduce((a, b) => a + b);
   if (guess == 1 && prime === 2) console.log(ans);
   return ans;
 }
